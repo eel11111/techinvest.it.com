@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المقالات - مدونة التقنية والاستثمار</title>
+    <meta name="description" content="تصفح جميع مقالاتنا في التقنية والاستثمار والمالية والأفكار الجديدة">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* أنماط إضافية لصفحة المقالات */
+        .articles-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e293b 100%);
+            color: var(--white);
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .search-filter-section {
+            background-color: var(--white);
+            padding: 2rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+        }
+
+        .search-filter-container {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border-color);
+            background-color: var(--white);
+            color: var(--text-primary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: var(--accent-color);
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+
+        .articles-main {
+            padding: 3rem 0;
+            background-color: var(--light-gray);
+        }
+
+        .articles-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+        }
+
+        .articles-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .article-item {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 0;
+        }
+
+        .article-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .article-item-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .article-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .article-item:hover .article-item-image img {
+            transform: scale(1.05);
+        }
+
+        .article-item-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .article-item-category {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .article-item-title {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .article-item-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .article-item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .article-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .read-more-btn {
+            color: var(--accent-color);
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .read-more-btn:hover {
+            gap: 1rem;
+        }
+
+        .sidebar {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 200px;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .popular-articles {
+            list-style: none;
+        }
+
+        .popular-article {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .popular-article:last-child {
+            border-bottom: none;
+        }
+
+        .popular-article-title {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .popular-article-date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .tags-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background-color: var(--light-gray);
+            color: var(--text-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border-color);
+            background-color: var(--white);
+            color: var(--text-primary);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .pagination-btn:hover,
+        .pagination-btn.active {
+            border-color: var(--accent-color);
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--border-color);
+        }
+
+        /* التصميم المتجاوب */
+        @media (max-width: 1024px) {
+            .articles-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: auto;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .article-item {
+                grid-template-columns: 1fr;
+            }
+
+            .article-item-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TechInvest</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">الرئيسية</a>
+                </li>
+                <li class="nav-item">
+                    <a href="articles.html" class="nav-link active">المقالات</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">الأقسام <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-filter="tech">التقنية</a></li>
+                        <li><a href="#" data-filter="investment">الاستثمار</a></li>
+                        <li><a href="#" data-filter="finance">المالية</a></li>
+                        <li><a href="#" data-filter="ideas">أفكار جديدة</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">اتصل بنا</a>
+                </li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- رأس صفحة المقالات -->
+    <header class="articles-header">
+        <div class="container">
+            <h1>جميع المقالات</h1>
+            <p>استكشف مكتبتنا الشاملة من المقالات في التقنية والاستثمار والمالية</p>
+        </div>
+    </header>
+
+    <!-- قسم البحث والفلترة -->
+    <section class="search-filter-section">
+        <div class="container">
+            <div class="search-filter-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="ابحث في المقالات..." id="searchInput">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">الكل</button>
+                    <button class="filter-btn" data-filter="tech">التقنية</button>
+                    <button class="filter-btn" data-filter="investment">الاستثمار</button>
+                    <button class="filter-btn" data-filter="finance">المالية</button>
+                    <button class="filter-btn" data-filter="ideas">أفكار جديدة</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="articles-main">
+        <div class="container">
+            <div class="articles-content">
+                <!-- قائمة المقالات -->
+                <div class="articles-list" id="articlesList">
+                    <!-- مقال 1 -->
+                    <article class="article-item" data-category="tech">
+                        <div class="article-item-image">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop" alt="الذكاء الاصطناعي">
+                        </div>
+                        <div class="article-item-content">
+                            <div>
+                                <span class="article-item-category">تقنية</span>
+                                <h2 class="article-item-title">مستقبل الذكاء الاصطناعي في الأعمال</h2>
+                                <p class="article-item-excerpt">
+                                    كيف يمكن للذكاء الاصطناعي أن يغير وجه الأعمال في السنوات القادمة؟ نستكشف في هذا المقال أحدث التطورات والتطبيقات العملية للذكاء الاصطناعي في مختلف القطاعات...
+                                </p>
+                                <div class="article-item-meta">
+                                    <span>15 ديسمبر 2024</span>
+                                    <span>5 دقائق قراءة</span>
+                                </div>
+                            </div>
+                            <div class="article-item-footer">
+                                <a href="#" class="read-more-btn">اقرأ المزيد <i class="fas fa-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- مقال 2 -->
+                    <article class="article-item" data-category="investment">
+                        <div class="article-item-image">
+                            <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=200&fit=crop" alt="الاستثمار">
+                        </div>
+                        <div class="article-item-content">
+                            <div>
+                                <span class="article-item-category">استثمار</span>
+                                <h2 class="article-item-title">استراتيجيات الاستثمار في العملات الرقمية</h2>
+                                <p class="article-item-excerpt">
+                                    دليل شامل للاستثمار الآمن في العملات الرقمية وتجنب المخاطر. نتناول أفضل الممارسات وأهم النصائح للمبتدئين والمحترفين في عالم الكريبتو...
+                                </p>
+                                <div class="article-item-meta">
+                                    <span>12 ديسمبر 2024</span>
+                                    <span>8 دقائق قراءة</span>
+                                </div>
+                            </div>
+                            <div class="article-item-footer">
+                                <a href="#" class="read-more-btn">اقرأ المزيد <i class="fas fa-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- مقال 3 -->
+                    <article class="article-item" data-category="finance">
+                        <div class="article-item-image">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=200&fit=crop" alt="التحليل المالي">
+                        </div>
+                        <div class="article-item-content">
+                            <div>
+                                <span class="article-item-category">مالية</span>
+                                <h2 class="article-item-title">أساسيات التحليل المالي للشركات</h2>
+                                <p class="article-item-excerpt">
+                                    تعلم كيفية تحليل البيانات المالية للشركات واتخاذ قرارات استثمارية مدروسة. نغطي أهم المؤشرات المالية وطرق قراءة القوائم المالية...
+                                </p>
+                                <div class="article-item-meta">
+                                    <span>10 ديسمبر 2024</span>
+                                    <span>6 دقائق قراءة</span>
+                                </div>
+                            </div>
+                            <div class="article-item-footer">
+                                <a href="#" class="read-more-btn">اقرأ المزيد <i class="fas fa-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- مقال 4 -->
+                    <article class="article-item" data-category="ideas">
+                        <div class="article-item-image">
+                            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=300&h=200&fit=crop" alt="أفكار جديدة">
+                        </div>
+                        <div class="article-item-content">
+                            <div>
+                                <span class="article-item-category">أفكار جديدة</span>
+                                <h2 class="article-item-title">الاقتصاد الدائري: نموذج جديد للأعمال المستدامة</h2>
+                                <p class="article-item-excerpt">
+                                    كيف يمكن للشركات تبني نموذج الاقتصاد الدائري لتحقيق الربحية والاستدامة معًا؟ نستكشف أمثلة عملية وتطبيقات مبتكرة في هذا المجال...
+                                </p>
+                                <div class="article-item-meta">
+                                    <span>8 ديسمبر 2024</span>
+                                    <span>7 دقائق قراءة</span>
+                                </div>
+                            </div>
+                            <div class="article-item-footer">
+                                <a href="#" class="read-more-btn">اقرأ المزيد <i class="fas fa-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- مقال 5 -->
+                    <article class="article-item" data-category="tech">
+                        <div class="article-item-image">
+                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=200&fit=crop" alt="البلوك تشين">
+                        </div>
+                        <div class="article-item-content">
+                            <div>
+                                <span class="article-item-category">تقنية</span>
+                                <h2 class="article-item-title">تقنية البلوك تشين وتطبيقاتها العملية</h2>
+                                <p class="article-item-excerpt">
+                                    ما هي تقنية البلوك تشين وكيف تعمل؟ نتناول التطبيقات العملية لهذه التقنية خارج نطاق العملات الرقمية وإمكانياتها المستقبلية...
+                                </p>
+                                <div class="article-item-meta">
+                                    <span>5 ديسمبر 2024</span>
+                                    <span>9 دقائق قراءة</span>
+                                </div>
+                            </div>
+                            <div class="article-item-footer">
+                                <a href="#" class="read-more-btn">اقرأ المزيد <i class="fas fa-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- مقال 6 -->
+                    <article class="article-item" data-category="investment">
+                        <div class="article-item-image">
+                            <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=300&h=200&fit=crop" alt="الاستثمار العقاري">
+                        </div>
+                        <div class="article-item-content">
+                            <div>
+                                <span class="article-item-category">استثمار</span>
+                                <h2 class="article-item-title">الاستثمار العقاري في عصر التكنولوجيا</h2>
+                                <p class="article-item-excerpt">
+                                    كيف غيرت التكنولوجيا وجه الاستثمار العقاري؟ نستكشف أحدث الاتجاهات والأدوات التقنية التي تساعد المستثمرين في اتخاذ قرارات أفضل...
+                                </p>
+                                <div class="article-item-meta">
+                                    <span>3 ديسمبر 2024</span>
+                                    <span>6 دقائق قراءة</span>
+                                </div>
+                            </div>
+                            <div class="article-item-footer">
+                                <a href="#" class="read-more-btn">اقرأ المزيد <i class="fas fa-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- الشريط الجانبي -->
+                <aside class="sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">المقالات الأكثر قراءة</h3>
+                        <ul class="popular-articles">
+                            <li class="popular-article">
+                                <h4 class="popular-article-title">مستقبل الذكاء الاصطناعي في الأعمال</h4>
+                                <span class="popular-article-date">15 ديسمبر 2024</span>
+                            </li>
+                            <li class="popular-article">
+                                <h4 class="popular-article-title">استراتيجيات الاستثمار في العملات الرقمية</h4>
+                                <span class="popular-article-date">12 ديسمبر 2024</span>
+                            </li>
+                            <li class="popular-article">
+                                <h4 class="popular-article-title">أساسيات التحليل المالي للشركات</h4>
+                                <span class="popular-article-date">10 ديسمبر 2024</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">الكلمات المفتاحية</h3>
+                        <div class="tags-cloud">
+                            <a href="#" class="tag">ذكاء اصطناعي</a>
+                            <a href="#" class="tag">بلوك تشين</a>
+                            <a href="#" class="tag">استثمار</a>
+                            <a href="#" class="tag">عملات رقمية</a>
+                            <a href="#" class="tag">تحليل مالي</a>
+                            <a href="#" class="tag">تقنية</a>
+                            <a href="#" class="tag">ابتكار</a>
+                            <a href="#" class="tag">ريادة أعمال</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- رسالة عدم وجود نتائج -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>لا توجد مقالات مطابقة</h3>
+                <p>جرب البحث بكلمات مختلفة أو تصفح جميع المقالات</p>
+            </div>
+
+            <!-- ترقيم الصفحات -->
+            <div class="pagination">
+                <a href="#" class="pagination-btn">&laquo; السابق</a>
+                <a href="#" class="pagination-btn active">1</a>
+                <a href="#" class="pagination-btn">2</a>
+                <a href="#" class="pagination-btn">3</a>
+                <a href="#" class="pagination-btn">التالي &raquo;</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- التذييل -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">TechInvest</h3>
+                    <p class="footer-description">
+                        مدونة متخصصة في التقنية والاستثمار والمالية، نقدم محتوى عالي الجودة وأفكار مبتكرة.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="articles.html">المقالات</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">الأقسام</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" data-filter="tech">التقنية</a></li>
+                        <li><a href="#" data-filter="investment">الاستثمار</a></li>
+                        <li><a href="#" data-filter="finance">المالية</a></li>
+                        <li><a href="#" data-filter="ideas">أفكار جديدة</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">تواصل معنا</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> info@techinvest.com</p>
+                        <p><i class="fas fa-phone"></i> +966 50 123 4567</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechInvest. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="articles.js"></script>
+</body>
+</html>
+

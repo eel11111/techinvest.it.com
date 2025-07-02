@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اتصل بنا - مدونة التقنية والاستثمار</title>
+    <meta name="description" content="تواصل معنا للاستفسارات والاقتراحات والتعاون">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* أنماط إضافية لصفحة اتصل بنا */
+        .contact-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e293b 100%);
+            color: var(--white);
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .contact-main {
+            padding: 80px 0;
+            background-color: var(--light-gray);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            background-color: var(--white);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .contact-form-container {
+            background-color: var(--white);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .contact-info h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--accent-color), #60a5fa);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.25rem;
+        }
+
+        .contact-details h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .contact-details p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        .social-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .social-links-contact {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link-contact {
+            width: 50px;
+            height: 50px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link-contact:hover {
+            background-color: var(--accent-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .contact-form h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background-color: var(--white);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background-color: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .submit-btn:disabled {
+            background-color: var(--text-secondary);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-message {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .form-message.success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .form-message.error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .faq-section {
+            margin-top: 4rem;
+            background-color: var(--white);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .faq-title {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            color: var(--accent-color);
+        }
+
+        .faq-answer {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer.active {
+            max-height: 200px;
+            padding-top: 1rem;
+        }
+
+        .faq-icon {
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* التصميم المتجاوب */
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-info,
+            .contact-form-container {
+                padding: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links-contact {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-info,
+            .contact-form-container,
+            .faq-section {
+                padding: 1.5rem;
+            }
+
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TechInvest</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">الرئيسية</a>
+                </li>
+                <li class="nav-item">
+                    <a href="articles.html" class="nav-link">المقالات</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">الأقسام <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="articles.html?category=tech">التقنية</a></li>
+                        <li><a href="articles.html?category=investment">الاستثمار</a></li>
+                        <li><a href="articles.html?category=finance">المالية</a></li>
+                        <li><a href="articles.html?category=ideas">أفكار جديدة</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link active">اتصل بنا</a>
+                </li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- رأس صفحة اتصل بنا -->
+    <header class="contact-header">
+        <div class="container">
+            <h1>تواصل معنا</h1>
+            <p>نحن هنا للإجابة على استفساراتك ومساعدتك في رحلتك التقنية والاستثمارية</p>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="contact-main">
+        <div class="container">
+            <div class="contact-content">
+                <!-- معلومات التواصل -->
+                <div class="contact-info">
+                    <h2>معلومات التواصل</h2>
+                    <p>
+                        نرحب بتواصلكم معنا في أي وقت. فريقنا مستعد للإجابة على جميع استفساراتكم 
+                        وتقديم المساعدة اللازمة في مجالات التقنية والاستثمار والمالية.
+                    </p>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>البريد الإلكتروني</h4>
+                            <p>info@techinvest.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>الهاتف</h4>
+                            <p>+966 50 123 4567</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>العنوان</h4>
+                            <p>الرياض، المملكة العربية السعودية</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>ساعات العمل</h4>
+                            <p>الأحد - الخميس: 9:00 ص - 6:00 م</p>
+                        </div>
+                    </div>
+
+                    <div class="social-section">
+                        <h3>تابعنا على وسائل التواصل</h3>
+                        <div class="social-links-contact">
+                            <a href="#" class="social-link-contact">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-link-contact">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="social-link-contact">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" class="social-link-contact">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-link-contact">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نموذج التواصل -->
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contactForm">
+                        <h2>أرسل لنا رسالة</h2>
+                        
+                        <div class="form-message" id="formMessage"></div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">الاسم الأول *</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">الاسم الأخير *</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email" class="form-label">البريد الإلكتروني *</label>
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="form-label">رقم الهاتف</label>
+                                <input type="tel" id="phone" name="phone" class="form-input">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">الموضوع *</label>
+                            <select id="subject" name="subject" class="form-select" required>
+                                <option value="">اختر الموضوع</option>
+                                <option value="general">استفسار عام</option>
+                                <option value="tech">سؤال تقني</option>
+                                <option value="investment">استشارة استثمارية</option>
+                                <option value="finance">استفسار مالي</option>
+                                <option value="collaboration">تعاون</option>
+                                <option value="feedback">ملاحظات واقتراحات</option>
+                                <option value="other">أخرى</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">الرسالة *</label>
+                            <textarea id="message" name="message" class="form-textarea" 
+                                    placeholder="اكتب رسالتك هنا..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            إرسال الرسالة
+                            <span class="loading-spinner" id="loadingSpinner"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- قسم الأسئلة الشائعة -->
+            <div class="faq-section">
+                <h2 class="faq-title">الأسئلة الشائعة</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>كيف يمكنني الاشتراك في النشرة الإخبارية؟</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        يمكنك الاشتراك في النشرة الإخبارية من خلال إدخال بريدك الإلكتروني في النموذج الموجود في الصفحة الرئيسية أو في أسفل أي مقال.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>هل تقدمون استشارات استثمارية شخصية؟</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        نعم، نقدم استشارات استثمارية مخصصة. يرجى التواصل معنا عبر نموذج الاتصال أو البريد الإلكتروني لمناقشة احتياجاتك.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>كم مرة تنشرون مقالات جديدة؟</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        ننشر مقالات جديدة بانتظام، عادة 3-4 مقالات أسبوعياً في مختلف المجالات التي نغطيها.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>هل يمكنني المساهمة بكتابة مقال؟</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        نرحب بالمساهمات من الخبراء في المجالات التي نغطيها. يرجى التواصل معنا مع عينة من أعمالك السابقة.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>كيف يمكنني الحصول على إشعارات بالمقالات الجديدة؟</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        يمكنك الاشتراك في النشرة الإخبارية أو متابعتنا على وسائل التواصل الاجتماعي للحصول على آخر التحديثات.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- التذييل -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">TechInvest</h3>
+                    <p class="footer-description">
+                        مدونة متخصصة في التقنية والاستثمار والمالية، نقدم محتوى عالي الجودة وأفكار مبتكرة.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="articles.html">المقالات</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">الأقسام</h4>
+                    <ul class="footer-links">
+                        <li><a href="articles.html?category=tech">التقنية</a></li>
+                        <li><a href="articles.html?category=investment">الاستثمار</a></li>
+                        <li><a href="articles.html?category=finance">المالية</a></li>
+                        <li><a href="articles.html?category=ideas">أفكار جديدة</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">تواصل معنا</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> info@techinvest.com</p>
+                        <p><i class="fas fa-phone"></i> +966 50 123 4567</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechInvest. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="contact.js"></script>
+</body>
+</html>
+
